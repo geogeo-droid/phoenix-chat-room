@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Tombo Chat</title>
+    <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
+    <%= csrf_meta_tag() %>
+  </head>
+  <body>
+    <header>
+      <section class="hero is-info">
+      <div class="hero-body">
+        <div class="columns">
+          <div class="column is-10">
+            <h1 class="title">
+              <%= link "🍺OkazaKirin.beam🍺", to: Routes.page_path(@conn, :index) %>
+            </h1>
+          </div>
+          <div class="column is-2">
+          <nav role="navigation">
+                    <!-- TomboChatWeb stored the user under conn.assigns.current_user -->
+                      <%= if @current_user do %>
+                        <strong><%= link @current_user.name, to: Routes.user_path(@conn, :show, @current_user) %></strong> /
+                        <%= link "Log out",
+                                to: Routes.session_path(@conn, :delete, @current_user),
+                                method: "delete" %>
+                      <% else %>
+                          <%= link "Register", to: Routes.user_path(@conn, :new) %> /
+                          <%= link "Log in", to: Routes.session_path(@conn, :new) %>
+                      <% end %>
+                  </nav>
+           </div>
+        </div>
+      </div>
+      </section>
+    </header>
+    <main role="main">
+      <%= render(@view_module, @view_template, assigns) %>
+      <br/>
+      <%= case get_flash(@conn) do %>
+        <% %{"info" => message} -> %>
+          <article class="message is-info">
+            <div class="message-body" role="alert"><%= message %></div>
+          </article>
+        <% %{"error" => message} -> %>
+          <article class="message is-danger">
+            <div class="message-body" role="alert"><%= message %></div>
+          </article>
+        <% _ -> %><%= nil %>
+      <% end %>
+    </main>
+    <script>window.userToken = "<%= assigns[:user_token] %>"</script>
+    <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
+  </body>
+</html>

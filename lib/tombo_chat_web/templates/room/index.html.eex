@@ -1,0 +1,27 @@
+<%= link "New Room", to: Routes.room_path(@conn, :new), class: "button" %>
+<hr>
+
+<div>
+  <table class="table is-striped is-fullwidth">
+    <thead>
+      <tr>
+        <th>name</th>
+        <th>roomname</th>
+        <th>control</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+    <%= for room <- @rooms do %>
+      <tr>
+        <td><%= room.name %></td>
+        <td><%= room.roomname %></td>
+        <td><%= link "Edit", to: Routes.room_path(@conn, :edit, room), class: "button" %></td>
+        <td><%= link "Delete", to: Routes.room_path(@conn, :delete, room),
+                                      method: "delete", data: [confirm: "Are you sure?"],
+                                      class: "button is-danger" %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>

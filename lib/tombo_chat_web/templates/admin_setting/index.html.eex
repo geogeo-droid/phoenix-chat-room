@@ -1,0 +1,10 @@
+<div id="settings">
+  <div id="menu">
+    <ul>
+      <li><a target="setting" href="/users">users</a></li>
+      <li><a target="setting" href="/rooms">rooms</a></li>
+      <li><a target="_self" href="/">back</a></li>
+    </ul>
+  </div>
+  <iframe name="setting" style=""></iframe>
+</div>

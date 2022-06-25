@@ -1,0 +1,6 @@
+#message-container {
+  height: 260px;
+  border-style: double;
+  border-color: #d1d1d1;
+  overflow: auto;
+}

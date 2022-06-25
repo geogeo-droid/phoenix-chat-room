@@ -1,0 +1,59 @@
+/* This file is for your main application css. */
+
+/*
+@import "./phoenix.css";
+ */
+
+@import "../../deps/phoenix_live_view/assets/css/live_view.css";
+
+@import "../node_modules/bulma/css/bulma.css";
+
+@import "./room.css";
+
+html {
+  height: 100%;
+  margin: 0;
+
+  body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+
+    header {
+      flex: 0 1 auto;
+    }
+
+    main {
+      flex: 1 1 auto;
+    }
+
+    footer {
+      flex: 0 1 auto;
+    }
+  }
+}
+
+header {
+  a:link{color: white;}
+  a:active{color: white;}
+  a:visited{color: white;}
+  a:hover{color: white;}
+}
+
+#settings {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: row;
+
+  #menu {
+    flex: 1 1 auto;
+    border-right: 1px dotted grey;
+  }
+
+  iframe {
+    flex: 10 1 auto;
+  }
+}
+

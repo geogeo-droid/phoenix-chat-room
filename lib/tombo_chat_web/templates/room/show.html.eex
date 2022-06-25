@@ -1,0 +1,18 @@
+<%= content_tag :div, id: "room",
+    data: [id: @room.id,
+           user_name: get_name(@current_user),
+           user_username: get_username(@current_user)] do %><% end %>
+
+<div id="message-container" class="container"></div>
+
+<div>
+  <label for="message-input"></label>
+  <textarea id="message-input"
+            class="textarea"
+            rows="1"
+            placeholder="Enter Message"></textarea>
+</div>
+
+<div>
+  <button id="message-submit" class="button is-success" type="submit" style="float: right;">Submit</button>
+</div>

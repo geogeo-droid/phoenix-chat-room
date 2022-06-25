@@ -1,0 +1,22 @@
+<div class="columns is-centered">
+  <div class="column is-one-quarter">
+  <p class="title">Log in</p>
+    <!-- Plug.conn structs are useful
+         when you're creating forms that aren't backed by a changeset -->
+    <%= form_for @conn, Routes.session_path(@conn, :create), [as: :session], fn f -> %>
+      <div class="field">
+        <div class="control">
+        <%= text_input f, :username, placeholder: "Username", class: "input" %>
+        <%= error_tag f, :username %>
+        </div>
+      </div>
+      <div class="field">
+        <div class="control">
+        <%= password_input f, :password, placeholder: "Password", class: "input" %>
+        <%= error_tag f, :password %>
+        </div>
+      </div>
+      <%= submit "Log in", class: "button is-success" %>
+    <% end %>
+  </div>
+</div>

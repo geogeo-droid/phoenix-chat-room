@@ -1,0 +1,4 @@
+<div>
+  <%= live_render(@conn, TomboChatWeb.Rooms,
+   session: %{"current_user" => @conn.assigns.current_user}) %>
+</div>

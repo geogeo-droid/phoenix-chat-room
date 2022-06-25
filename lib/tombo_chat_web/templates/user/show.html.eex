@@ -1,0 +1,18 @@
+<p class="title">Your Details</p>
+<div>
+  <table class="table is-fullwidth">
+    <tr>
+      <%= if is_admin(@conn) do %><th>id</th><% end %>
+      <th>username</th>
+      <th>name</th>
+      <%= if is_admin(@conn) do %><th>admin</th><% end %>
+    </tr>
+    <tr>
+      <%= if is_admin(@conn) do %><td><%= @user.id %></td><% end %>
+      <td><%= @user.username %></td>
+      <td><%= @user.name %></td>
+      <%= if is_admin(@conn) do %><td><%= @user.admin %></td><% end %>
+    </tr>
+  </table>
+  <%= link_edit(@conn, @user, @current_user) %>
+</div>
