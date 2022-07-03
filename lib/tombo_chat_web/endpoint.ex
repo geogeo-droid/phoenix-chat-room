@@ -1,19 +1,14 @@
 defmodule TomboChatWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :tombo_chat
 
-  # sessionのexpirationはmax_age[sec]で指定する
-  @session_options [
-    store: :cookie,
-    max_age: 24 * 60 * 60,
-    key: "_tombo_chat_key",
-    signing_salt: "YTBO126B"
-  ]
+  @session_options [store: :cookie, key: "_tombo_chat_key", signing_salt: "YTBO126B"]
 
   socket "/socket", TomboChatWeb.UserSocket,
     websocket: true,
     longpoll: false
 
-  socket "/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]]
+  socket "/live", Phoenix.LiveView.Socket,
+         websocket: [connect_info: [session: @session_options]]
 
   # Serve at "/" the static files from "priv/static" directory.
   #

@@ -1,0 +1,16 @@
+/* This file is for your main application css. */
+
+/*
+@import "./phoenix.css";
+ */
+
+/* @import "../../deps/phoenix_live_view/assets/css/live_view.css"; */
+
+@import "../node_modules/bulma/css/bulma.css";
+
+@import "./room.css";
+
+header a:link{color: white;}
+header a:active{color: white;}
+header a:visited{color: white;}
+header a:hover{color: white;}

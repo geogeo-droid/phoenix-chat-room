@@ -15,8 +15,6 @@ defmodule TomboChatWeb.Auth do
 
     cond do
       user = conn.assigns[:current_user] ->
-        # NOTE: 運用ではこのルートは通らない。テストをシンプルにするため。
-        # see. Programming Phoenix Chapter 8, Preparing for Logged-In Users
         put_current_user(conn, user)
 
       user = user_id && TomboChat.Accounts.get_user(user_id) ->
@@ -32,10 +30,8 @@ defmodule TomboChatWeb.Auth do
     # NOTE: difference between assign and put_session
     # https://stackoverflow.com/questions/46502455/what-is-the-difference-between-assign-and-put-session-in-plug-conn-of-the-phoeni/46502682
     |> put_current_user(user)
-    # puts the user ID in the session
-    |> put_session(:user_id, user.id)
-    # this protects us from session fixation attacks
-    |> configure_session(renew: true)
+    |> put_session(:user_id, user.id) # puts the user ID in the session
+    |> configure_session(renew: true) # this protects us from session fixation attacks
   end
 
   defp put_current_user(conn, %User{} = user) do
@@ -43,8 +39,7 @@ defmodule TomboChatWeb.Auth do
     token = Phoenix.Token.sign(conn, "user socket", user.id)
 
     conn
-    # stores user as the :current_user in conn
-    |> assign(:current_user, user)
+    |> assign(:current_user, user)    # stores user as the :current_user in conn
     |> assign(:user_token, token)
   end
 

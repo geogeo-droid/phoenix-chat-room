@@ -3,8 +3,7 @@ defmodule TomboChat.Spaces.Room do
   import Ecto.Changeset
 
   schema "rooms" do
-    # unique in system
-    field :roomname, :string
+    field :roomname, :string # unique in system
     field :name, :string
 
     has_many :messages, TomboChat.Messages.Message

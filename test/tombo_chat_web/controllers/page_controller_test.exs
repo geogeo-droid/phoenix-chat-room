@@ -1,5 +1,5 @@
 defmodule TomboChatWeb.PageControllerTest do
-  use TomboChatWeb.ConnCase, async: false
+  use TomboChatWeb.ConnCase, async: true
   import Phoenix.LiveViewTest
 
   test "test user authentication on all actions", %{conn: conn} do
@@ -9,13 +9,14 @@ defmodule TomboChatWeb.PageControllerTest do
       ],
       fn
         conn ->
-          assert html_response(conn, 302)
-          assert conn.halted
+        assert html_response(conn, 302)
+        assert conn.halted
       end
     )
   end
 
   describe "with a logged-in user" do
+
     setup %{conn: conn, login_as: username} do
       user = user_fixture(username: username)
       conn = assign(conn, :current_user, user)
@@ -29,12 +30,10 @@ defmodule TomboChatWeb.PageControllerTest do
 
       {:ok, view, html} =
         live_isolated(conn, TomboChatWeb.Rooms,
-          session: %{"current_user" => conn.assigns.current_user}
-        )
+          session: %{"current_user" => conn.assigns.current_user})
 
-      assert html =~ "Rooms"
-      assert html =~ "Messages"
-      assert html =~ "Members"
+      assert String.contains?(html, "ロビー")
     end
   end
+
 end

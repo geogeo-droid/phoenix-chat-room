@@ -3,12 +3,8 @@ defmodule TomboChatWeb.UserController do
   plug :authenticate_user when action in [:index, :show, :edit, :update, :delete]
   plug :allow_only_admin when action in [:index, :delete]
 
-  plug :put_layout, "admin_setting.html"
-
   alias TomboChat.Accounts
   alias TomboChat.Accounts.User
-  alias TomboChatWeb.Email
-  alias TomboChatWeb.Mailer
 
   def index(conn, _params) do
     conn
@@ -18,13 +14,12 @@ defmodule TomboChatWeb.UserController do
 
   def show(conn, %{"id" => id} = _params) do
     conn
-    # |> IO.inspect()
+    #|> IO.inspect()
     |> render("show.html", user: Accounts.get_user(id))
   end
 
   def new(conn, _params) do
-    # returns an Ecto.Changeset
-    changeset = Accounts.change_registration(%User{}, %{})
+    changeset = Accounts.change_registration(%User{}, %{}) # returns an Ecto.Changeset
     render(conn, "new.html", changeset: changeset)
   end
 
@@ -37,17 +32,13 @@ defmodule TomboChatWeb.UserController do
     # }
 
     case Accounts.register_user(user_params) do
-      # Repo.insertが成功したときの戻り値
-      {:ok, user} ->
-        Email.account_activation(user)
-        |> Mailer.deliver_now()
-
+      {:ok, user}-> # Repo.insertが成功したときの戻り値
         conn
-        |> put_flash(:info, "Please check your email to activate your account.")
-        |> redirect(to: Routes.page_path(conn, :index))
+        |> TomboChatWeb.Auth.login(user)
+        |> put_flash(:info, "#{user.name} created!")
+        |> redirect(to: Routes.user_path(conn, :index))
 
-      # Repo.insertが失敗したときの戻り値
-      {:error, %Ecto.Changeset{} = changeset} ->
+      {:error, %Ecto.Changeset{} = changeset} -> # Repo.insertが失敗したときの戻り値
         conn
         |> render("new.html", changeset: changeset)
     end
@@ -88,4 +79,5 @@ defmodule TomboChatWeb.UserController do
         |> render("index.html", changeset: changeset)
     end
   end
+
 end

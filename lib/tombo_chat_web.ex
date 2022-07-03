@@ -23,7 +23,8 @@ defmodule TomboChatWeb do
 
       import Plug.Conn
       import TomboChatWeb.Gettext
-      import Phoenix.LiveView.Controller
+      # import Phoenix.LiveView.Controller
+      import Phoenix.LiveView.Controller, only: [live_render: 3]
       import TomboChatWeb.Auth, only: [authenticate_user: 2]
       import TomboChatWeb.Access, only: [allow_only_admin: 2]
       alias TomboChatWeb.Router.Helpers, as: Routes
@@ -44,9 +45,11 @@ defmodule TomboChatWeb do
 
       import TomboChatWeb.ErrorHelpers
       import TomboChatWeb.Gettext
-
       import Phoenix.LiveView.Helpers
-
+      # import Phoenix.LiveView, only: [live_render: 2, live_render: 3, live_link: 1, live_link: 2]
+      # import Phoenix.LiveView.Helpers,
+      #        only: [live_render: 2, live_render: 3, live_link: 1, live_link: 2,
+      #          live_component: 2, live_component: 3, live_component: 4]
       import TomboChatWeb.Access, only: [is_admin: 1]
       alias TomboChatWeb.Router.Helpers, as: Routes
     end

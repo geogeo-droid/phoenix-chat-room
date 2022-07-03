@@ -21,12 +21,6 @@
         </div>
       </div>
       <div class="field">
-              <div class="control">
-              <%= email_input f, :email, placeholder: "Email", class: "input" %>
-              <%= error_tag f, :email %>
-              </div>
-            </div>
-      <div class="field">
         <div class="control">
         <%= password_input f, :password, placeholder: "Password", class: "input" %>
         <%= error_tag f, :password %>

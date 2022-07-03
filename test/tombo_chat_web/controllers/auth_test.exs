@@ -17,7 +17,6 @@ defmodule TomboChatWeb.AuthTest do
     conn =
       conn
       |> Auth.authenticate_user([])
-
     assert conn.halted
   end
 
@@ -34,8 +33,7 @@ defmodule TomboChatWeb.AuthTest do
     login_conn =
       conn
       |> Auth.login(%TomboChat.Accounts.User{id: 123})
-      # TODO この処理の理解をまとめること
-      |> send_resp(:ok, "")
+      |> send_resp(:ok, "") # TODO この処理の理解をまとめること
 
     next_conn = get(login_conn, "/")
     assert get_session(next_conn, :user_id) == 123
@@ -54,7 +52,6 @@ defmodule TomboChatWeb.AuthTest do
 
   test "call places user from session into assigns", %{conn: conn} do
     user = user_fixture()
-
     conn =
       conn
       |> put_session(:user_id, user.id)

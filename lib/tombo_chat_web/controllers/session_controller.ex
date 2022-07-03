@@ -7,8 +7,7 @@ defmodule TomboChatWeb.SessionController do
     |> render("new.html")
   end
 
-  def create(
-        conn,
+  def create(conn,
         %{"session" => %{"username" => username, "password" => pass}}
       ) do
     case TomboChat.Accounts.authenticate_by_username_and_pass(username, pass) do

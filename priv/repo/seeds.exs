@@ -9,19 +9,3 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
-
-alias TomboChat.Spaces
-alias TomboChat.Accounts
-
-{:ok, _} = Spaces.create_room(%{roomname: "lobby", name: "ロビー"})
-
-{:ok, admin} =
-  Accounts.register_admin_user(%{
-    username: "administrator",
-    name: "administrator",
-    email: "admin@example.com",
-    password: "administrator",
-    admin: true
-  })
-
-admin |> IO.inspect() |> Accounts.activate()

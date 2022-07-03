@@ -14,6 +14,7 @@ defmodule TomboChat.Repo.Migrations.CreateUsers do
       timestamps()
     end
 
+
     # add a unique index to guarantee that
     # the username field is unique across the whole table.
     create unique_index(:users, [:username])

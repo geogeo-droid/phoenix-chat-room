@@ -68,9 +68,8 @@ defmodule TomboChatWeb.Presence do
   information, while maintaining the required `:metas` field from the
   original presence data.
   """
-  use Phoenix.Presence,
-    otp_app: :tombo_chat,
-    pubsub_server: TomboChat.PubSub
+  use Phoenix.Presence, otp_app: :tombo_chat,
+                        pubsub_server: TomboChat.PubSub
 
   def fetch(_topic, entries) do
     # entries are %{"1" => %{metas: _}},

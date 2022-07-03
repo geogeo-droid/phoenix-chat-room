@@ -2,15 +2,13 @@ defmodule TomboChatWeb.RoomController do
   use TomboChatWeb, :controller
   plug :allow_only_admin when action in [:index, :edit, :new, :show, :create, :update, :delete]
 
-  plug :put_layout, "admin_setting.html"
-
   alias TomboChat.Spaces
   alias TomboChat.Spaces.Room
 
   def index(conn, _params) do
-    rooms = Spaces.list_rooms()
-
-    # |> IO.inspect
+    rooms =
+      Spaces.list_rooms()
+      # |> IO.inspect
 
     conn
     |> render("index.html", rooms: rooms)
@@ -76,4 +74,5 @@ defmodule TomboChatWeb.RoomController do
         |> render("index.html", changeset: changeset)
     end
   end
+
 end

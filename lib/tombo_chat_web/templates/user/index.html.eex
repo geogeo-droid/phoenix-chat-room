@@ -4,8 +4,6 @@
     <thead>
       <tr>
         <th>name</th>
-        <th>activated</th>
-        <th>activated at</th>
         <th>control</th>
       </tr>
     </thead>
@@ -14,8 +12,6 @@
       <tr>
         <!-- TODO Routes.user_path関数について調べる-->
         <td><%= link_user(@conn, user) %></td>
-        <td><%= user.activated %></td>
-        <td><%= user.activated_at %></td>
         <td>
           <%= link_edit(@conn, user, @current_user) %>
           <%= link_delete(@conn, user) %>

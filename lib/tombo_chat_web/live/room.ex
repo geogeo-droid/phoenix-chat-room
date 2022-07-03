@@ -4,6 +4,7 @@ defmodule TomboChatWeb.Room do
 
   import TomboChatWeb.ErrorHelpers, only: [error_tag: 2]
 
+  alias TomboChat.Spaces
   alias TomboChat.Messages
 
   alias TomboChatWeb.Presence
@@ -51,61 +52,54 @@ defmodule TomboChatWeb.Room do
   end
 
   defp topic(room_id), do: "room:#{room_id}"
-
   defp list_presence(topic) do
     Presence.list(topic)
-    |> Enum.map(fn {_user_id, %{metas: list, user: user} = _data} ->
-      %{name: user.name, count: Enum.count(list)}
-    end)
+    |> Enum.map(
+         fn {_user_id, %{metas: list, user: user} = _data} ->
+           %{name: user.name, count: Enum.count(list)}
+         end
+       )
   end
 
   def shift_naive_datetime(%NaiveDateTime{} = datetime) do
     datetime
-    |> NaiveDateTime.add(3600 * 9)
+    |> NaiveDateTime.add(3600*9)
     |> NaiveDateTime.to_string()
   end
 
   def mount(
         _params,
         %{"room" => room, "current_user" => current_user} = _session,
-        socket
-      ) do
+        socket) do
     TomboChatWeb.Endpoint.subscribe(topic(room.id))
-
-    {:ok, _ref} =
-      Presence.track(
-        # pid
-        self(),
-        # topic
-        topic(room.id),
-        # key: tracked presences are grouped by key, cast as a string
-        current_user.id,
-        # meta
-        %{}
-      )
+    {:ok, _ref} = Presence.track(
+      self(),          # pid
+      topic(room.id),  # topic
+      current_user.id, # key: tracked presences are grouped by key, cast as a string
+      %{}              # meta
+    )
 
     {:ok,
-     assign(socket,
-       room: room,
-       current_user: current_user,
-       message_changeset: Messages.change_message(),
-       messages: Messages.list_messages(room),
-       users: list_presence(topic(room.id))
-     ), temporary_assigns: [messages: []]}
+      assign(socket,
+        room: room,
+        current_user: current_user,
+        message_changeset: Messages.change_message(),
+        messages: Messages.list_messages(room),
+        users: list_presence(topic(room.id))
+      ),
+      temporary_assigns: [messages: []]}
   end
 
   # presenceに変化があると発行されるメッセージ("presence_diff")のコールバック
   def handle_info(
         %{event: "presence_diff"},
-        %{assigns: %{room: room}} = socket
-      ) do
+        %{assigns: %{room: room}} = socket) do
     {:noreply, assign(socket, users: list_presence(topic(room.id)))}
   end
 
   def handle_info(
-        %{event: "new_message", payload: new_message, topic: _},
-        socket
-      ) do
+        %{event: "new_message", payload: new_message,
+          topic: _}, socket) do
     socket = assign(socket, messages: [new_message])
     {:noreply, socket}
   end
@@ -113,15 +107,17 @@ defmodule TomboChatWeb.Room do
   def handle_event(
         "submit",
         %{"message" => message} = _payload,
-        %{assigns: %{room: room, current_user: current_user}} = socket
-      ) do
+        %{assigns: %{room: room, current_user: current_user}} = socket) do
+
     case Messages.create_message(room.id, current_user.id, message) do
       {:ok, message} ->
-        Endpoint.broadcast!(topic(room.id), "new_message", Messages.preload(message, :user))
+        Endpoint.broadcast!(
+          topic(room.id), "new_message", Messages.preload(message, :user))
         {:noreply, socket}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, message_changeset: changeset)}
     end
   end
+
 end

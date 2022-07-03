@@ -17,11 +17,8 @@ defmodule TomboChatWeb.UserView do
 
   def link_delete(conn, user) do
     if is_admin(conn) do
-      link("Delete ",
-        to: Routes.user_path(conn, :delete, user),
-        method: "delete",
-        data: [confirm: "Are you sure?"]
-      )
+      link("Delete ", to: Routes.user_path(conn, :delete, user),
+                   method: "delete", data: [confirm: "Are you sure?"])
     end
   end
 end

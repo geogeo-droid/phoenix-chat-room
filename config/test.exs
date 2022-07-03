@@ -3,7 +3,7 @@ use Mix.Config
 # Configure your database
 config :tombo_chat, TomboChat.Repo,
   username: "postgres",
-  password: "postgres",
+  password: "password",
   database: "tombo_chat_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
@@ -19,5 +19,3 @@ config :logger, level: :warn
 
 # ease up the number of hashing rounds to speed up test
 config :pbkdf2_elixir, :rounds, 1
-
-config :tombo_chat, TomboChatWeb.Mailer, adapter: Bamboo.TestAdapter

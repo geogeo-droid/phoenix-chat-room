@@ -49,12 +49,6 @@ defmodule TomboChat.Accounts do
     Repo.delete(user)
   end
 
-  def activate(%User{} = account) do
-    account
-    |> User.activation_changeset(%{activated: true, activated_at: NaiveDateTime.utc_now()})
-    |> Repo.update()
-  end
-
   def change_registration(%User{} = user, params) do
     User.registration_changeset(user, params)
   end
@@ -62,12 +56,6 @@ defmodule TomboChat.Accounts do
   def register_user(attrs \\ %{}) do
     %User{}
     |> User.registration_changeset(attrs)
-    |> Repo.insert()
-  end
-
-  def register_admin_user(attrs \\ %{}) do
-    %User{}
-    |> User.administrator_changeset(attrs)
     |> Repo.insert()
   end
 
@@ -82,25 +70,7 @@ defmodule TomboChat.Accounts do
         {:error, :unauthorized}
 
       true ->
-        # for timing attacks
-        Pbkdf2.no_user_verify()
-        {:error, :not_found}
-    end
-  end
-
-  def authenticate_by_email_and_token(email, given_token) do
-    user = get_user_by(email: email)
-
-    cond do
-      user && Pbkdf2.verify_pass(given_token, user.activation_hash) ->
-        {:ok, user}
-
-      user ->
-        {:error, :unauthorized}
-
-      true ->
-        # for timing attacks
-        Pbkdf2.no_user_verify()
+        Pbkdf2.no_user_verify() # for timing attacks
         {:error, :not_found}
     end
   end

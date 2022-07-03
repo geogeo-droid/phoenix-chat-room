@@ -10,7 +10,6 @@ defmodule TomboChatWeb.Access do
   def is_admin(%Plug.Conn{assigns: %{current_user: nil}} = _conn) do
     false
   end
-
   def is_admin(%Plug.Conn{assigns: %{current_user: current_user}} = _conn) do
     current_user.admin
   end
@@ -25,4 +24,5 @@ defmodule TomboChatWeb.Access do
       |> halt()
     end
   end
+
 end

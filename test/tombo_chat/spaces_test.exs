@@ -14,5 +14,6 @@ defmodule TomboChat.SpacesTest do
     end
 
     # TODO: 他関数のテストを書く
+
   end
 end

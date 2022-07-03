@@ -19,7 +19,7 @@ defmodule TomboChatWeb.Rooms do
       </ul>
       </div>
       <div class="column is-10">
-        <%= render_room(@socket, @room) %>
+        <%= render_room(@socket, @room, @current_user) %>
       </div>
     </div>
     """
@@ -28,21 +28,21 @@ defmodule TomboChatWeb.Rooms do
   defp room_name_tag(room, room), do: content_tag(:a, "# #{room.name}", class: "is-active")
   defp room_name_tag(_, room), do: content_tag(:a, "# #{room.name}")
 
-  defp render_room(socket, room) do
+  defp render_room(socket, room, current_user) do
     # NOTE: live_renderはidを変更しないと再マウントしない
     live_render(socket, TomboChatWeb.Room,
       id: room.id,
-      session: %{"room" => room, "current_user" => socket.assigns.current_user}
-    )
+      session: %{"room" => room, "current_user" => current_user})
   end
 
   def mount(_params, session, socket) do
     {:ok,
-     assign(socket,
-       rooms: Spaces.list_rooms(),
-       room: Spaces.get_room_by(%{roomname: "lobby"}),
-       current_user: session["current_user"]
-     )}
+      assign(socket,
+        rooms: Spaces.list_rooms(),
+        room: Spaces.get_room_by(%{roomname: "lobby"}),
+        current_user: session["current_user"]
+      )
+    }
   end
 
   def handle_event("room_id_" <> id, _params, %{assigns: _assigns} = socket) do

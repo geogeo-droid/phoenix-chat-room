@@ -25,7 +25,6 @@ defmodule TomboChatWeb.UserSocket do
         :error
     end
   end
-
   def connect(_params, _socket, _connect_info), do: :error
 
   # Socket id's are topics that allow you to identify all sockets for a given user:
